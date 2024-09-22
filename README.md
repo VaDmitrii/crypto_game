@@ -12,7 +12,7 @@
    </br>
    ```docker compose exec -it app python seed.py```
 
-### Бот для админа: [здесь]((https://t.me/cr_user_admin_bot))
+### Бот для админа: [здесь](https://t.me/cr_user_admin_bot)
 
 ### Production bot: [здесь](https://t.me/cr_prod_bot)
 
