@@ -22,15 +22,10 @@
 ```bash
 curl -X GET "http://localhost:8000/user?api-key=sokfe30230fe9wdjhsuhcnaop!29eu-fjAFK229JDNFD"
 ```
-#### Postman
-
-![.](https://raw.githubusercontent.com/VaDmitrii/crypto_game/main/requests_api_exmaples/get_all.png)
 2. Получение конкретного пользователя по username
 ```bash
 curl -X GET "http://localhost:8000/user/{username}?api-key=sokfe30230fe9wdjhsuhcnaop!29eu-fjAFK229JDNFD"
 ```
-#### Postman
-![.](https://raw.githubusercontent.com/VaDmitrii/crypto_game/main/requests_api_exmaples/get_user.png)
 3. Создание нового пользователя
 ```bash
 curl -X POST "http://localhost:8000/user?api-key=sokfe30230fe9wdjhsuhcnaop!29eu-fjAFK229JDNFD" \
@@ -40,8 +35,7 @@ curl -X POST "http://localhost:8000/user?api-key=sokfe30230fe9wdjhsuhcnaop!29eu-
     "telegram_uid": 24424
 }'
 ```
-#### Postman
-![.](https://raw.githubusercontent.com/VaDmitrii/crypto_game/main/requests_api_exmaples/create_user.png)
+
 4. Редактирование существующего пользователя по telegram_uid
 ```bash
 curl -X PUT "http://localhost:8000/user/{uid}?api-key=sokfe30230fe9wdjhsuhcnaop!29eu-fjAFK229JDNFD" \
@@ -52,6 +46,3 @@ curl -X PUT "http://localhost:8000/user/{uid}?api-key=sokfe30230fe9wdjhsuhcnaop!
     "rating": 21242
 }'
 ```
-#### Postman
-![.](https://raw.githubusercontent.com/VaDmitrii/crypto_game/main/requests_api_exmaples/edit_user.png)
-
