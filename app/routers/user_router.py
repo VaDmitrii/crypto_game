@@ -1,20 +1,21 @@
 from typing import List
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Security
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from database import get_db
 from exceptions_custom import UserNotFoundException, IntegrityDataException
 from pydantic_schema.base_schemes import UserBase, UserOut, UserCreate, UserUpdate
+from security import check_token
 from services.user_service import UserService
 
 router = APIRouter(
-    prefix='/user'
+    prefix='/user',
 )
 
 
 @router.get("", response_model=List[UserOut])
-async def get_all(db: AsyncSession = Depends(get_db)):
+async def get_all(db: AsyncSession = Depends(get_db), api_key: str = Security(check_token)):
     """ Get a list of all users registered
 
     :param:
@@ -29,7 +30,7 @@ async def get_all(db: AsyncSession = Depends(get_db)):
 
 
 @router.get("/{username}", response_model=UserOut)
-async def get_by_username(username: str, db: AsyncSession = Depends(get_db)):
+async def get_by_username(username: str, db: AsyncSession = Depends(get_db), api_key: str = Security(check_token)):
     """ Retrieve a User by username
 
     :param:
@@ -52,7 +53,8 @@ async def get_by_username(username: str, db: AsyncSession = Depends(get_db)):
 
 
 @router.post("", response_model=UserBase)
-async def create_user(user_data: UserCreate, db: AsyncSession = Depends(get_db)):
+async def create_user(user_data: UserCreate, db: AsyncSession = Depends(get_db),
+                      api_key: str = Security(check_token)):
     """ Create new User
 
     :param:
@@ -80,7 +82,8 @@ async def create_user(user_data: UserCreate, db: AsyncSession = Depends(get_db))
 
 
 @router.put("/{uid}", response_model=UserOut)
-async def update_user(uid: int, updates: UserUpdate, db: AsyncSession = Depends(get_db)):
+async def update_user(uid: int, updates: UserUpdate, db: AsyncSession = Depends(get_db),
+                      api_key: str = Security(check_token)):
     """ Update an existing User
 
     :param:

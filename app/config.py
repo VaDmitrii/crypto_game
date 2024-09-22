@@ -9,6 +9,7 @@ class Settings(BaseSettings):
 
     PRODUCTION_BOT_TOKEN: str
     ADMIN_BOT_TOKEN: str
+    API_TOKEN: str
 
     MYSQL_USER: str = 'mysql_user'
     MYSQL_PASSWORD: str = 'mysql_password'
