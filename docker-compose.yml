@@ -1,0 +1,90 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    ports:
+      - "8000:8000"
+    command: uvicorn main:app --reload --host 0.0.0.0 --forwarded-allow-ips '*'
+    env_file: .env
+    networks:
+      - test_tier
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: mysql:latest
+    env_file: .env
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./mysql_data:/var/lib/mysql
+    networks:
+      - test_tier
+    environment:
+      MYSQL_DATABASE: mysql_db
+      MYSQL_USER: mysql_user
+      MYSQL_PASSWORD: mysql_password
+      MYSQL_ROOT_PASSWORD: root_password
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      interval: 10s
+      retries: 5
+
+  nginx:
+      image: nginx:latest
+      container_name: nginx_proxy
+      ports:
+        - "80:80"
+      volumes:
+        - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+        - ./html:/usr/share/nginx/html
+      networks:
+        - test_tier
+      depends_on:
+        app:
+          condition: service_started
+        admin_bot:
+          condition: service_started
+        game_bot:
+          condition: service_started
+
+  admin_bot:
+    build:
+      context: .
+      dockerfile: app/telegram_bot/Dockerfile
+    env_file: .env
+    ports:
+      - "5000:8000"
+    depends_on:
+      db:
+        condition: service_started
+      app:
+        condition: service_started
+    networks:
+      - test_tier
+
+  game_bot:
+    build:
+      context: .
+      dockerfile: app/telegram_bot/game_bot/Dockerfile
+    env_file: .env
+    ports:
+      - "5001:8000"
+    depends_on:
+      db:
+        condition: service_started
+      app:
+        condition: service_started
+      admin_bot:
+        condition: service_started
+    networks:
+      - test_tier
+
+volumes:
+  mysql_data:
+
+networks:
+  test_tier:
+    name: test_tier
