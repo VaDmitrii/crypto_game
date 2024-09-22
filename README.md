@@ -18,31 +18,10 @@
 
 ## Примеры запросов к API   
 1. Получение списка всех пользователей</br>
-
-```bash
-curl -X GET "http://localhost:8000/user?api-key=sokfe30230fe9wdjhsuhcnaop!29eu-fjAFK229JDNFD"
-```
+![Получить всех пользователей](images/get_all.png)
 2. Получение конкретного пользователя по username
-```bash
-curl -X GET "http://localhost:8000/user/{username}?api-key=sokfe30230fe9wdjhsuhcnaop!29eu-fjAFK229JDNFD"
-```
+![Получить пользователя по username](images/get_user.png)
 3. Создание нового пользователя
-```bash
-curl -X POST "http://localhost:8000/user?api-key=sokfe30230fe9wdjhsuhcnaop!29eu-fjAFK229JDNFD" \
--H "Content-Type: application/json" \
--d '{
-    "username": "new_user",
-    "telegram_uid": 24424
-}'
-```
-
+![Создать пользователя](images/create_user.png)
 4. Редактирование существующего пользователя по telegram_uid
-```bash
-curl -X PUT "http://localhost:8000/user/{uid}?api-key=sokfe30230fe9wdjhsuhcnaop!29eu-fjAFK229JDNFD" \
--H "Content-Type: application/json" \
--d '{
-    "username": "new_user",
-    "coins": 22144,
-    "rating": 21242
-}'
-```
+![Отредактировать пользователя](images/edit_user.png)
